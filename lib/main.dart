@@ -1,0 +1,77 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ziya_attendence_app/providers/auth_controllers/forgot_controller.dart';
+import 'package:ziya_attendence_app/providers/auth_controllers/login_controller.dart';
+import 'package:ziya_attendence_app/providers/auth_controllers/otp_controller.dart';
+import 'package:ziya_attendence_app/providers/auth_controllers/reset_controller.dart';
+import 'package:ziya_attendence_app/providers/dashboard_controllers/holiday_controller.dart';
+import 'package:ziya_attendence_app/providers/dashboard_controllers/leave_dashboard_controller.dart';
+import 'package:ziya_attendence_app/providers/dashboard_controllers/leave_status_controller.dart';
+import 'package:ziya_attendence_app/providers/dashboard_controllers/leaves_Request_controller.dart';
+import 'package:ziya_attendence_app/providers/notification_controller.dart';
+import 'package:ziya_attendence_app/providers/profile_controller.dart';
+import 'package:ziya_attendence_app/providers/search_controller.dart';
+import 'package:ziya_attendence_app/providers/task_controller.dart';
+import 'package:ziya_attendence_app/firebase_options.dart';
+import 'package:ziya_attendence_app/views/authentication/account_verified_screen.dart';
+import 'package:ziya_attendence_app/views/authentication/buffering_screen.dart';
+import 'package:ziya_attendence_app/views/authentication/login_screen.dart';
+import 'package:ziya_attendence_app/views/authentication/resetpass.dart';
+import 'package:ziya_attendence_app/views/bottom_navigationBar.dart';
+import 'providers/checkin_card_controller.dart';
+import 'providers/dashboard_controllers/attendance_controller.dart';
+import 'providers/dashboard_controllers/dash_board_controller.dart';
+import 'providers/dashboard_controllers/payslip_controller.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => TaskController()),
+        ChangeNotifierProvider(create: (context) => AttendanceProvider()),
+        ChangeNotifierProvider(create: (context) => DashboardController()),
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => ResetPasswordController()),
+        ChangeNotifierProvider(create: (context) => OtpController()),
+        // ChangeNotifierProvider(create: (context) => SignUpController()),
+        ChangeNotifierProvider(create: (context) => ForgotPasswordProvider()),
+        ChangeNotifierProvider(create: (context) => LeaveRequestController()),
+        ChangeNotifierProvider(create: (context) => LeaveDashboardController()),
+        ChangeNotifierProvider(create: (context) => AttendanceController()),
+        ChangeNotifierProvider(create: (context) => HolidayController()),
+        ChangeNotifierProvider(create: (context) => LeaveStatusController()),
+        ChangeNotifierProvider(create: (context) => PayslipController()),
+        ChangeNotifierProvider(create: (context) => ProfileController()),
+        ChangeNotifierProvider(create: (context) => NotificationController()),
+        ChangeNotifierProvider(create: (context) => SearchSheetController()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
+    return ScreenUtilInit(
+      designSize: const Size(393, 851),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: user != null ? BottomNavigation() : LoginPage(),
+        );
+      },
+    );
+  }
+}
