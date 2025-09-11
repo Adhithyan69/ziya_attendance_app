@@ -7,6 +7,7 @@ import 'package:ziya_attendence_app/providers/auth_controllers/forgot_controller
 import 'package:ziya_attendence_app/providers/auth_controllers/login_controller.dart';
 import 'package:ziya_attendence_app/providers/auth_controllers/otp_controller.dart';
 import 'package:ziya_attendence_app/providers/auth_controllers/reset_controller.dart';
+import 'package:ziya_attendence_app/providers/dashboard_controllers/check_face_verification_controller.dart';
 import 'package:ziya_attendence_app/providers/dashboard_controllers/holiday_controller.dart';
 import 'package:ziya_attendence_app/providers/dashboard_controllers/leave_dashboard_controller.dart';
 import 'package:ziya_attendence_app/providers/dashboard_controllers/leave_status_controller.dart';
@@ -49,6 +50,9 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ProfileController()),
         ChangeNotifierProvider(create: (context) => NotificationController()),
         ChangeNotifierProvider(create: (context) => SearchSheetController()),
+        ChangeNotifierProvider(
+          create: (context) => CheckFaceVerificationController(),
+        ),
       ],
       child: const MyApp(),
     ),

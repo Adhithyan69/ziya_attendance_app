@@ -3,11 +3,14 @@ import 'package:lottie/lottie.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
 
-
 import 'check_verification_screen.dart';
 
 class FaceVerificationScreen extends StatefulWidget {
-  const FaceVerificationScreen({super.key, required this.time, required this.checkedIn});
+  const FaceVerificationScreen({
+    super.key,
+    required this.time,
+    required this.checkedIn,
+  });
   final String time;
   final bool checkedIn;
   @override
@@ -15,8 +18,6 @@ class FaceVerificationScreen extends StatefulWidget {
 }
 
 class _FaceVerificationScreenState extends State<FaceVerificationScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +29,7 @@ class _FaceVerificationScreenState extends State<FaceVerificationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               const SizedBox(height: 60,),
+                const SizedBox(height: 60),
                 const Text(
                   TextConstants.faceVerification,
                   style: TextStyle(
@@ -40,10 +41,7 @@ class _FaceVerificationScreenState extends State<FaceVerificationScreen> {
                 const SizedBox(height: 8),
                 const Text(
                   TextConstants.pleaseCaptureYourFace,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black54,
-                  ),
+                  style: TextStyle(fontSize: 18, color: Colors.black54),
                 ),
                 const SizedBox(height: 92),
 
@@ -76,7 +74,17 @@ class _FaceVerificationScreenState extends State<FaceVerificationScreen> {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckVerificationScreen(time: widget.time, checkedIn: widget.checkedIn,)));
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => CheckVerificationScreen(
+                                  time: widget.time,
+                                  checkedIn: widget.checkedIn,
+                                  onsite: false,
+                                ),
+                          ),
+                        );
                       },
                       child: const Text(
                         TextConstants.takePhoto,

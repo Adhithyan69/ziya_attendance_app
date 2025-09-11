@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
 import 'package:ziya_attendence_app/views/notification_screen.dart';
 
-
 class HomeAppBarWidget extends StatelessWidget {
   const HomeAppBarWidget({super.key});
+
   Route _createSlideRoute() {
     return PageRouteBuilder(
-      transitionDuration: Duration(milliseconds: 400),
-      pageBuilder: (context, animation, secondaryAnimation) =>
-      const NotificationScreen(),
+      transitionDuration: const Duration(milliseconds: 400),
+      pageBuilder:
+          (context, animation, secondaryAnimation) =>
+              const NotificationScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(1.0, 0.0);
         const end = Offset.zero;
         const curve = Curves.easeInOut;
 
+        final tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
 
-        final tween =
-        Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
-        );
+        return SlideTransition(position: animation.drive(tween), child: child);
       },
     );
   }
@@ -33,42 +33,44 @@ class HomeAppBarWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: MediaQuery.of(context).size.width * 00.8 + 20,
+          width: 0.8.sw + 20.w, // ✅ screen width with ScreenUtil
           child: Stack(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 00.8,
+                width: 0.8.sw,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Colors.blue.shade900, Colors.green],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
-                  borderRadius:
-                      BorderRadius.horizontal(right: Radius.circular(30)),
+                  borderRadius: BorderRadius.horizontal(
+                    right: Radius.circular(30.r),
+                  ),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 child: Row(
                   children: [
-
                     Container(
-                      height: 50,
-                      width: 45,
-                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      height: 50.h,
+                      width: 45.w,
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(image: AssetImage(TextConstants.profileImageUrl,),fit: BoxFit.cover)
+                        borderRadius: BorderRadius.circular(5.r),
+                        image: DecorationImage(
+                          image: AssetImage(TextConstants.profileImageUrl),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           TextConstants.userName,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
                             color: AppColors.white,
                           ),
@@ -76,7 +78,7 @@ class HomeAppBarWidget extends StatelessWidget {
                         Text(
                           TextConstants.userField,
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 12.sp,
                             color: Colors.white70,
                           ),
                         ),
@@ -86,23 +88,23 @@ class HomeAppBarWidget extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 7,
-                right: 5,
+                top: 7.h,
+                right: 5.w,
                 child: CircleAvatar(
                   backgroundImage: AssetImage(TextConstants.ziyalogoImageUrl),
-                  radius: 25,
+                  radius: 25.r,
                 ),
               ),
             ],
           ),
         ),
-         SizedBox(width: 20,),
+        SizedBox(width: 20.w),
         GestureDetector(
-          onTap: (){
+          onTap: () {
             Navigator.of(context).push(_createSlideRoute());
           },
           child: Container(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(5.w),
             decoration: const BoxDecoration(
               color: AppColors.buttonColor,
               shape: BoxShape.circle,
@@ -110,12 +112,12 @@ class HomeAppBarWidget extends StatelessWidget {
             child: Stack(
               alignment: Alignment.topRight,
               children: [
-                const Icon(Icons.notifications, size: 25, color: Colors.white),
+                Icon(Icons.notifications, size: 25.sp, color: Colors.white),
                 Positioned(
                   right: 0,
                   child: Container(
-                    width: 8,
-                    height: 8,
+                    width: 8.w,
+                    height: 8.h,
                     decoration: const BoxDecoration(
                       color: Colors.red,
                       shape: BoxShape.circle,
@@ -281,7 +283,6 @@ class HomeAppBarWidget extends StatelessWidget {
 // //   @override
 // //   Size get preferredSize => const Size.fromHeight(70);
 // // }
-
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';

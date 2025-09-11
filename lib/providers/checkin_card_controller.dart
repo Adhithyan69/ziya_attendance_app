@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../models/checkin_card_model.dart';
-
-
 class AttendanceProvider extends ChangeNotifier {
-  final AttendanceModel _data = AttendanceModel();
+  bool _isCheckedIn = false;
+  bool _isOnsite = false;
 
-  bool get isCheckedIn => _data.isCheckedIn;
-  String? get checkInTime => _data.checkInTime;
-  String? get checkOutTime => _data.checkOutTime;
-  bool get isOnsite=>_data.isOnsite;
+  String? _checkInTime;
+  String? _checkOutTime;
 
-  void checkIn({required bool onsite}) {
-    _data.isCheckedIn = true;
-    _data.checkInTime = DateFormat('hh:mm a').format(DateTime.now());
-    _data.isOnsite=onsite;
+  // Getters
+  bool get isCheckedIn => _isCheckedIn;
+  bool get isOnsite => _isOnsite;
+  String? get checkInTime => _checkInTime;
+  String? get checkOutTime => _checkOutTime;
+
+  /// ✅ Mark only check-in (does not care if onsite or WFH)
+  void checkIn() {
+    _isCheckedIn = true;
+    _checkInTime = DateFormat('hh:mm a').format(DateTime.now());
+    _checkOutTime = null; // reset old checkout
     notifyListeners();
   }
 
+  /// ✅ Mark only check-out
   void checkOut() {
-    _data.isCheckedIn = false;
-    _data.checkOutTime = DateFormat('hh:mm a').format(DateTime.now());
+    _isCheckedIn = false;
+    _checkOutTime = DateFormat('hh:mm a').format(DateTime.now());
+    notifyListeners();
+  }
+
+  /// ✅ Separate method to set onsite/WFH
+  void setWorkMode(bool onsite) {
+    _isOnsite = onsite;
     notifyListeners();
   }
 }

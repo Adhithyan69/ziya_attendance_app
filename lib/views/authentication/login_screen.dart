@@ -108,7 +108,7 @@ class LoginPage extends StatelessWidget {
                                         ).showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              result["data"]["message"],
+                                              "Welcome, ${result["data"]?["name"] ?? "User"}", // use name if available
                                             ),
                                           ),
                                         );
@@ -125,7 +125,10 @@ class LoginPage extends StatelessWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
-                                            content: Text(result["message"]),
+                                            content: Text(
+                                              result["message"] ??
+                                                  "Login failed",
+                                            ),
                                           ),
                                         );
                                       }
