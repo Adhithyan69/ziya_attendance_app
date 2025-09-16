@@ -1,75 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
+import 'check_face_verification_screen.dart';
 
-import 'check_verification_screen.dart';
+class FaceReminderScreen extends StatelessWidget {
+  final bool isCheckIn;
 
-class FaceVerificationScreen extends StatefulWidget {
-  const FaceVerificationScreen({
-    super.key,
-    required this.time,
-    required this.checkedIn,
-  });
-  final String time;
-  final bool checkedIn;
-  @override
-  State<FaceVerificationScreen> createState() => _FaceVerificationScreenState();
-}
+  const FaceReminderScreen({super.key, required this.isCheckIn});
 
-class _FaceVerificationScreenState extends State<FaceVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 60),
-                const Text(
+                SizedBox(height: 60.h),
+
+                // Title
+                Text(
                   TextConstants.faceVerification,
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 32.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.unSelectedTextColor,
                   ),
                 ),
-                const SizedBox(height: 8),
-                const Text(
-                  TextConstants.pleaseCaptureYourFace,
-                  style: TextStyle(fontSize: 18, color: Colors.black54),
-                ),
-                const SizedBox(height: 92),
+                SizedBox(height: 8.h),
 
+                // Subtitle
+                Text(
+                  TextConstants.pleaseCaptureYourFace,
+                  style: TextStyle(fontSize: 18.sp, color: AppColors.lightText),
+                ),
+                SizedBox(height: 92.h),
+
+                // Face animation / image
                 Center(
                   child: Container(
-                    height: 220,
-                    width: 180,
+                    height: 220.h,
+                    width: 180.w,
+                    padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.grey),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
-                    child: Lottie.asset(
+                    child: Image.asset(
                       TextConstants.faceScanAnimation,
                       fit: BoxFit.contain,
                     ),
                   ),
                 ),
-                const SizedBox(height: 80),
+                SizedBox(height: 80.h),
 
+                // Take photo button
                 Center(
                   child: SizedBox(
-                    width: 250,
-                    height: 40,
+                    width: 250.w,
+                    height: 40.h,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.buttonColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
                       onPressed: () {
@@ -79,19 +77,17 @@ class _FaceVerificationScreenState extends State<FaceVerificationScreen> {
                           MaterialPageRoute(
                             builder:
                                 (context) => CheckVerificationScreen(
-                                  time: widget.time,
-                                  checkedIn: widget.checkedIn,
-                                  onsite: false,
+                                  isCheckIn: isCheckIn,
                                 ),
                           ),
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         TextConstants.takePhoto,
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                          color: AppColors.selectedTextColor,
                         ),
                       ),
                     ),

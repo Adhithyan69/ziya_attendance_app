@@ -32,7 +32,7 @@ class HomeAppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
+        SizedBox(
           width: 0.8.sw + 20.w, // ✅ screen width with ScreenUtil
           child: Stack(
             children: [

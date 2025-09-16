@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
@@ -8,8 +7,10 @@ class AppColors {
   static const Color primaryColor = Colors.black;
   static const Color secondaryColor = Colors.white;
   static Color secondaryButton = Colors.grey[300]!;
-  static const Color selectedTextColor = Colors.white;
-  static const Color unSelectedTextColor = Colors.black;
+  static const selectedTextColor = Colors.white;
+  static const unSelectedTextColor = Colors.black87;
+  static const lightText = Color.fromARGB(255, 39, 39, 39);
+  static const background = Colors.white;
   static const Color dashboardAttendanceColor = Colors.green;
   static const Color dashboardLeavesColor = Colors.orange;
   static const Color dashboardLeavesStatusColor = Colors.purple;

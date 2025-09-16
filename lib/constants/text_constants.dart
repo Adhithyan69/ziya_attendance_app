@@ -2,6 +2,7 @@ class TextConstants {
   //login screen
   static const appTitle = 'Ziya Attendence';
   static const ziyaLogo = 'assets/_ZIYA_ACADEMY_LOGO.png';
+  static const baseUrl = 'http://192.168.1.31:8000/api/';
   static const welcomeBack = 'Welcome Back!';
   static const loginToYOurAccount = 'Login to Your Account';
   static const emailHint = 'Email';
@@ -53,8 +54,6 @@ class TextConstants {
   static const punchOutSuccessFull = "Punch out successfully ";
   static const checkedInText = "You are checked in at";
   static const checkedOutText = "You are checked out at ";
-  static const remoteAttendance = "(for remote attendance)";
-  static const remoteALocationText = "Location/IP";
   static const profileImageUrl = "assets/userProfile_image.jpg";
   static const ziyalogoImageUrl = 'assets/logo_image.jpg';
   static const presence = "Presence";
@@ -69,8 +68,8 @@ class TextConstants {
   static const pleaseScanYourQRCode = 'Please Scan your QR Code';
   static const scanQR = 'Scan QR';
   static const takePhoto = 'Take Photo';
-  static const qRAnimation = "lib/assets/qr_scan_animation.json";
-  static const faceScanAnimation = 'lib/assets/face_scan.json';
+  static const qRAnimation = "assets/animations/qr-code.gif";
+  static const faceScanAnimation = 'assets/animations/face-scan.gif';
   static const faceVerification = 'Face Verification';
   static const pleaseCaptureYourFace = 'Please capture your face';
   static const punchIn = "Punch In";
@@ -79,6 +78,7 @@ class TextConstants {
   static const checkedInAt = "You are Punch-in ";
   static const wfh = "Work From Home";
   static const onSite = "On Site";
+  static const remote = "Remote";
   static const doYouReallyWantToCheckout = "Do you really want\nto checkout!";
   static const punchInDialog = "Are you working from home or on site today?";
   static const selectPunchInType = "Select Punch-In Type";

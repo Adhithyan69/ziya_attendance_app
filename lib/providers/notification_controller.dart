@@ -3,7 +3,7 @@ import '../../constants/text_constants.dart';
 import '../../models/notification_model.dart';
 
 class NotificationController with ChangeNotifier {
-  List<NotificationModel> _notifications = [
+  final List<NotificationModel> _notifications = [
     NotificationModel(
       title: TextConstants.missedPunch,
       message: TextConstants.missedPunchMessage,

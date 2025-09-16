@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
-import 'package:ziya_attendence_app/views/authentication/login_screen.dart';
+import 'package:ziya_attendence_app/views/bottom_navigationBar.dart';
 
 class AccountVerifiedScreen extends StatefulWidget {
   const AccountVerifiedScreen({super.key});
@@ -17,11 +17,10 @@ class _AccountVerifiedScreenState extends State<AccountVerifiedScreen> {
   void initState() {
     super.initState();
 
-    // Navigate to Login after 2 seconds
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => LoginPage()),
+        MaterialPageRoute(builder: (_) => BottomNavigation()),
       );
     });
   }

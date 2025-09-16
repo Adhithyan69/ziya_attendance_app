@@ -46,9 +46,10 @@ class AttendanceScreen extends StatelessWidget {
                     const Text(
                       TextConstants.overView,
                       style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20,
-                          color: Colors.black),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
                     ),
                     const Text(
                       TextConstants.totalDays,
@@ -56,14 +57,26 @@ class AttendanceScreen extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        _buildOverviewCard(TextConstants.presence,
-                            TextConstants.presenceLength, AppColors.presenceClr),
-                        _buildOverviewCard(TextConstants.absence,
-                            TextConstants.absenceLength, AppColors.absenceClr),
-                        _buildOverviewCard(TextConstants.leaves,
-                            TextConstants.leavesLength, AppColors.leavesClr),
-                        _buildOverviewCard(TextConstants.late,
-                            TextConstants.lateLength, AppColors.lateClr),
+                        _buildOverviewCard(
+                          TextConstants.presence,
+                          TextConstants.presenceLength,
+                          AppColors.presenceClr,
+                        ),
+                        _buildOverviewCard(
+                          TextConstants.absence,
+                          TextConstants.absenceLength,
+                          AppColors.absenceClr,
+                        ),
+                        _buildOverviewCard(
+                          TextConstants.leaves,
+                          TextConstants.leavesLength,
+                          AppColors.leavesClr,
+                        ),
+                        _buildOverviewCard(
+                          TextConstants.late,
+                          TextConstants.lateLength,
+                          AppColors.lateClr,
+                        ),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -76,20 +89,27 @@ class AttendanceScreen extends StatelessWidget {
             const Text(
               TextConstants.june18,
               style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  color: Colors.black),
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(TextConstants.status,
-                    style: TextStyle(fontSize: 15)),
+                const Text(
+                  TextConstants.status,
+                  style: TextStyle(fontSize: 15),
+                ),
                 Chip(
-                  label: const Text(TextConstants.present,
-                      style: TextStyle(color: AppColors.presenceClr)),
-                  color: WidgetStatePropertyAll(AppColors.presenceClr.withOpacity(0.3)),
+                  label: const Text(
+                    TextConstants.present,
+                    style: TextStyle(color: AppColors.presenceClr),
+                  ),
+                  color: WidgetStatePropertyAll(
+                    AppColors.presenceClr.withOpacity(0.3),
+                  ),
                   side: BorderSide.none,
                 ),
               ],
@@ -98,35 +118,44 @@ class AttendanceScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                _buildCheckInfo(Icons.alarm_on, TextConstants.checkIn,
-                    TextConstants.checkInTime, AppColors.presenceClr),
+                _buildCheckInfo(
+                  Icons.alarm_on,
+                  TextConstants.checkIn,
+                  TextConstants.checkInTime,
+                  AppColors.presenceClr,
+                ),
                 const Spacer(),
                 Row(
                   children: const [
                     SizedBox(width: 50, child: Divider(thickness: 1.2)),
-                    Icon(Icons.arrow_forward_ios,
-                        size: 16, color: Colors.grey),
+                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
                   ],
                 ),
                 const Spacer(),
-                _buildCheckInfo(Icons.alarm_off, TextConstants.checkOut,
-                    TextConstants.checkOutTime, AppColors.presenceClr),
+                _buildCheckInfo(
+                  Icons.alarm_off,
+                  TextConstants.checkOut,
+                  TextConstants.checkOutTime,
+                  AppColors.presenceClr,
+                ),
               ],
             ),
             const SizedBox(height: 12),
             Row(
               children: [
                 _buildTagBox(
-                    TextConstants.workMode,
-                    TextConstants.office,
-                    AppColors.tagOfficeBg,
-                    AppColors.tagOfficeText),
+                  TextConstants.workMode,
+                  TextConstants.office,
+                  AppColors.tagOfficeBg,
+                  AppColors.tagOfficeText,
+                ),
                 const Spacer(),
                 _buildTagBox(
-                    TextConstants.verification,
-                    TextConstants.selfie,
-                    AppColors.tagSelfieBg,
-                    AppColors.tagSelfieText),
+                  TextConstants.verification,
+                  TextConstants.selfie,
+                  AppColors.tagSelfieBg,
+                  AppColors.tagSelfieText,
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -160,9 +189,14 @@ class AttendanceScreen extends StatelessWidget {
             children: [
               Text(label, style: TextStyle(color: color, fontSize: 11)),
               const SizedBox(height: 4),
-              Text(count,
-                  style: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold, color: color)),
+              Text(
+                count,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
             ],
           ),
         ),
@@ -171,7 +205,11 @@ class AttendanceScreen extends StatelessWidget {
   }
 
   Widget _buildCheckInfo(
-      IconData icon, String label, String time, Color color) {
+    IconData icon,
+    String label,
+    String time,
+    Color color,
+  ) {
     return Row(
       children: [
         Icon(icon, color: color),
@@ -182,27 +220,32 @@ class AttendanceScreen extends StatelessWidget {
             Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
             Text(time, style: TextStyle(color: color)),
           ],
-        )
+        ),
       ],
     );
   }
 
   Widget _buildTagBox(
-      String label, String value, Color bgColor, Color textColor) {
+    String label,
+    String value,
+    Color bgColor,
+    Color textColor,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border(left: BorderSide(color: AppColors.tagBorderClr, width: 2)),
+        border: Border(
+          left: BorderSide(color: AppColors.tagBorderClr, width: 2),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-              )),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.black, fontSize: 15),
+          ),
           const SizedBox(height: 2),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -210,11 +253,14 @@ class AttendanceScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: bgColor,
             ),
-            child: Text(value,
-                style: TextStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14)),
+            child: Text(
+              value,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+            ),
           ),
         ],
       ),
@@ -232,9 +278,7 @@ class AttendanceScreen extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -243,15 +287,20 @@ class AttendanceScreen extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label,
-                    style:
-                    const TextStyle(fontSize: 12, color: Colors.black54)),
+                Text(
+                  label,
+                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                ),
                 const SizedBox(height: 2),
-                Text(value,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 14)),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -266,27 +315,29 @@ class AttendanceScreen extends StatelessWidget {
       TextConstants.late: AppColors.lateClr,
     };
 
-    return Container(
+    return SizedBox(
       height: 200,
       width: double.infinity,
       child: PieChart(
         PieChartData(
           sectionsSpace: 2,
           centerSpaceRadius: 40,
-          sections: summary.entries.map((entry) {
-            final label = "${entry.value.toString().padLeft(2, '0')} \nDays";
-            return PieChartSectionData(
-              value: entry.value.toDouble(),
-              color: colors[entry.key],
-              title: label,
-              titleStyle: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.white,
-              ),
-              radius: 60,
-            );
-          }).toList(),
+          sections:
+              summary.entries.map((entry) {
+                final label =
+                    "${entry.value.toString().padLeft(2, '0')} \nDays";
+                return PieChartSectionData(
+                  value: entry.value.toDouble(),
+                  color: colors[entry.key],
+                  title: label,
+                  titleStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                  radius: 60,
+                );
+              }).toList(),
         ),
       ),
     );

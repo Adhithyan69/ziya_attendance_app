@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
 import 'package:ziya_attendence_app/providers/auth_controllers/reset_controller.dart';
-import 'package:ziya_attendence_app/views/authentication/account_verified_screen.dart';
-import 'package:ziya_attendence_app/views/authentication/buffering_screen.dart';
+import 'package:ziya_attendence_app/views/authentication/login_screen.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   final String email;
@@ -19,10 +18,14 @@ class ResetPasswordScreen extends StatelessWidget {
       child: Consumer<ResetPasswordController>(
         builder: (context, controller, _) {
           if (controller.isLoading) {
-            return const PasswordResetLoader();
+            return const Scaffold(
+              backgroundColor: AppColors.white,
+              body: Center(child: CircularProgressIndicator()),
+            );
           }
 
           if (controller.isSuccess) {
+            // Navigate to Login screen after success
             WidgetsBinding.instance.addPostFrameCallback((_) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -32,15 +35,15 @@ class ResetPasswordScreen extends StatelessWidget {
                 ),
               );
 
-              Navigator.pushReplacement(
+              Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const AccountVerifiedScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => LoginPage()),
+                (route) => false,
               );
             });
 
-            return const PasswordResetLoader();
+            // Keep showing a blank screen while navigating
+            return const Scaffold(backgroundColor: AppColors.white);
           }
 
           return Scaffold(
@@ -51,7 +54,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// Title
+                    // Title
                     Text(
                       TextConstants.createNewPassword,
                       style: TextStyle(
@@ -62,14 +65,14 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8.h),
 
-                    /// Description
+                    // Description
                     Text(
                       TextConstants.enterEmailToReset,
                       style: TextStyle(fontSize: 18.sp, color: AppColors.grey),
                     ),
                     SizedBox(height: 82.h),
 
-                    /// New Password Field
+                    // New Password Field
                     Card(
                       color: AppColors.white,
                       child: TextField(
@@ -94,7 +97,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
 
-                    /// Confirm Password Field
+                    // Confirm Password Field
                     Card(
                       color: AppColors.white,
                       child: TextField(
@@ -118,7 +121,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       ),
                     ),
 
-                    /// Error Message
+                    // Error Message
                     if (controller.errorMessage != null) ...[
                       SizedBox(height: 16.h),
                       Text(
@@ -132,11 +135,11 @@ class ResetPasswordScreen extends StatelessWidget {
 
                     SizedBox(height: 32.h),
 
-                    /// Buttons Row
+                    // Buttons Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        /// Cancel Button
+                        // Cancel Button
                         ElevatedButton(
                           onPressed: () => Navigator.pop(context),
                           style: ElevatedButton.styleFrom(
@@ -159,7 +162,7 @@ class ResetPasswordScreen extends StatelessWidget {
                         ),
                         SizedBox(width: 16.w),
 
-                        /// Reset Password Button
+                        // Reset Password Button
                         ElevatedButton(
                           onPressed: () {
                             controller.resetPassword(email);

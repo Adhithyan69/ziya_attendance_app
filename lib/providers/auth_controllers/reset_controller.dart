@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ziya_attendence_app/constants/text_constants.dart';
 
 class ResetPasswordController extends ChangeNotifier {
   String _newPassword = "";
@@ -52,7 +53,7 @@ class ResetPasswordController extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse("http://192.168.1.44:8000/api/reset-password/"),
+        Uri.parse("${TextConstants.baseUrl}reset-password/"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "new_password": _newPassword}),
       );

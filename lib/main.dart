@@ -1,8 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ziya_attendence_app/providers/auth_controllers/forgot_controller.dart';
 import 'package:ziya_attendence_app/providers/auth_controllers/login_controller.dart';
 import 'package:ziya_attendence_app/providers/auth_controllers/otp_controller.dart';
@@ -16,12 +14,7 @@ import 'package:ziya_attendence_app/providers/notification_controller.dart';
 import 'package:ziya_attendence_app/providers/profile_controller.dart';
 import 'package:ziya_attendence_app/providers/search_controller.dart';
 import 'package:ziya_attendence_app/providers/task_controller.dart';
-import 'package:ziya_attendence_app/firebase_options.dart';
-import 'package:ziya_attendence_app/views/authentication/account_verified_screen.dart';
-import 'package:ziya_attendence_app/views/authentication/buffering_screen.dart';
 import 'package:ziya_attendence_app/views/authentication/login_screen.dart';
-import 'package:ziya_attendence_app/views/authentication/resetpass.dart';
-import 'package:ziya_attendence_app/views/bottom_navigationBar.dart';
 import 'providers/checkin_card_controller.dart';
 import 'providers/dashboard_controllers/attendance_controller.dart';
 import 'providers/dashboard_controllers/dash_board_controller.dart';
@@ -29,7 +22,6 @@ import 'providers/dashboard_controllers/payslip_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
       providers: [
@@ -64,8 +56,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-
     return ScreenUtilInit(
       designSize: const Size(393, 851),
       minTextAdapt: true,
@@ -73,7 +63,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: user != null ? BottomNavigation() : LoginPage(),
+          home: LoginPage(),
         );
       },
     );

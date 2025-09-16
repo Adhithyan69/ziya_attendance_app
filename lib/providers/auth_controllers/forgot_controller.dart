@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ziya_attendence_app/constants/text_constants.dart';
 
 class ForgotPasswordProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -15,7 +16,7 @@ class ForgotPasswordProvider extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse("http://192.168.1.44:8000/api/forgot-password/"),
+        Uri.parse("${TextConstants.baseUrl}forgot-password/"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email}),
       );

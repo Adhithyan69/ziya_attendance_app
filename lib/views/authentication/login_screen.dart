@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
 import 'package:ziya_attendence_app/providers/auth_controllers/login_controller.dart';
+import 'package:ziya_attendence_app/views/authentication/account_verified_screen.dart';
+import 'package:ziya_attendence_app/views/authentication/buffering_screen.dart';
 import 'package:ziya_attendence_app/views/authentication/forgot_pass_screen.dart';
 import 'package:ziya_attendence_app/views/bottom_navigationBar.dart';
 import 'package:ziya_attendence_app/widgets/background_circles_widget.dart';
@@ -92,33 +94,55 @@ class LoginPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                           ),
+
                           onPressed:
                               provider.isLoading
                                   ? null
                                   : () async {
                                     if (_formKey.currentState!.validate()) {
+                                      // Show buffering screen
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (_) => const BufferingScreen(),
+                                        ),
+                                      );
+
+                                      // Perform login
                                       final result = await provider.login(
                                         emailController.text.trim(),
                                         passwordController.text.trim(),
                                       );
 
-                                      if (result["success"]) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              "Welcome, ${result["data"]?["name"] ?? "User"}", // use name if available
-                                            ),
-                                          ),
-                                        );
+                                      // Remove buffering screen
+                                      Navigator.pop(context);
 
-                                        Navigator.pushReplacement(
+                                      if (result["success"]) {
+                                        // Show AccountVerifiedScreen
+                                        Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder:
-                                                (_) => const BottomNavigation(),
+                                                (_) =>
+                                                    const AccountVerifiedScreen(),
                                           ),
+                                        );
+
+                                        // Navigate to Home after short delay
+                                        Future.delayed(
+                                          const Duration(seconds: 2),
+                                          () {
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (_) =>
+                                                        const BottomNavigation(),
+                                              ),
+                                              (route) => false,
+                                            );
+                                          },
                                         );
                                       } else {
                                         ScaffoldMessenger.of(
@@ -134,6 +158,7 @@ class LoginPage extends StatelessWidget {
                                       }
                                     }
                                   },
+
                           child:
                               provider.isLoading
                                   ? SizedBox(
@@ -175,25 +200,6 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // TextButton(
-                          //   onPressed:
-                          //       () => Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder:
-                          //               (_) => const ResetPasswordLoadingScreen(
-                          //                 email: '',
-                          //               ),
-                          //         ),
-                          //       ),
-                          //   child: Text(
-                          //     TextConstants.signUp,
-                          //     style: TextStyle(
-                          //       color: Colors.green,
-                          //       fontSize: 14.sp,
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ],

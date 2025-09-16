@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
 
-class PasswordResetLoader extends StatefulWidget {
-  const PasswordResetLoader({super.key});
+class BufferingScreen extends StatefulWidget {
+  const BufferingScreen({super.key});
 
   @override
-  State<PasswordResetLoader> createState() => _PasswordResetLoaderState();
+  State<BufferingScreen> createState() => _BufferingScreenState();
 }
 
-class _PasswordResetLoaderState extends State<PasswordResetLoader>
+class _BufferingScreenState extends State<BufferingScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final punchIn=Provider.of<AttendanceProvider>(context).isCheckedIn;
+    final punchIn = Provider.of<AttendanceProvider>(context).isCheckedIn;
     return DefaultTabController(
       length: 4,
       child: SafeArea(
@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
-            child:  HomeAppBarWidget(),
+            child: HomeAppBarWidget(),
           ),
           body: SingleChildScrollView(
             child: Padding(
@@ -30,26 +30,34 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-                  const Text('${TextConstants.wishes} ${TextConstants.userName}"',
-                      style: TextStyle(color: Colors.grey, fontSize: 18)),
+                  const Text(
+                    '${TextConstants.wishes} ${TextConstants.userName}"',
+                    style: TextStyle(color: Colors.grey, fontSize: 18),
+                  ),
                   const SizedBox(height: 20),
                   const CheckInCard(),
                   const SizedBox(height: 10),
-                  const Text('${TextConstants.overView}',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700)),
+                  const Text(
+                    TextConstants.overView,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   const OverviewSection(),
                   const SizedBox(height: 10),
-                  punchIn?TabBarSection():SizedBox.shrink(),
+                  punchIn ? TabBarSection() : SizedBox.shrink(),
                   const SizedBox(height: 10),
-                  const Text('${TextConstants.dashboard}',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700)),
+                  const Text(
+                    TextConstants.dashboard,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   const DashboardGridView(),
                 ],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ziya_attendence_app/constants/text_constants.dart';
 
 class OtpController extends ChangeNotifier {
   String _otp = "";
@@ -31,7 +32,7 @@ class OtpController extends ChangeNotifier {
 
     try {
       final response = await http.post(
-        Uri.parse("http://192.168.1.44:8000/api/verify-otp/"),
+        Uri.parse("${TextConstants.baseUrl}verify-otp/"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "otp": _otp}),
       );

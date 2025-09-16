@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import 'package:ziya_attendence_app/providers/checkin_card_controller.dart';
+import 'package:ziya_attendence_app/constants/text_constants.dart';
 
 class CheckFaceVerificationController extends ChangeNotifier {
   CameraController? cameraController;
@@ -12,6 +12,7 @@ class CheckFaceVerificationController extends ChangeNotifier {
 
   bool isFlashOn = false;
   int selectedCameraIndex = 0;
+  bool _isCapturing = false;
 
   CheckFaceVerificationController() {
     initCamera();
@@ -20,8 +21,15 @@ class CheckFaceVerificationController extends ChangeNotifier {
   Future<void> initCamera() async {
     try {
       cameras = await availableCameras();
-      selectedCameraIndex = 0;
-      await _initController(cameras![selectedCameraIndex]);
+      if (cameras != null && cameras!.isNotEmpty) {
+        final frontCamera = cameras!.firstWhere(
+          (camera) => camera.lensDirection == CameraLensDirection.front,
+          orElse: () => cameras!.first,
+        );
+
+        selectedCameraIndex = cameras!.indexOf(frontCamera);
+        await _initController(frontCamera);
+      }
     } catch (e) {
       debugPrint("Camera init error: $e");
     }
@@ -34,8 +42,12 @@ class CheckFaceVerificationController extends ChangeNotifier {
       ResolutionPreset.medium,
       enableAudio: false,
     );
-    await cameraController!.initialize();
-    notifyListeners();
+    try {
+      await cameraController!.initialize();
+      notifyListeners();
+    } catch (e) {
+      debugPrint("CameraController initialization error: $e");
+    }
   }
 
   Future<void> switchCamera() async {
@@ -61,25 +73,31 @@ class CheckFaceVerificationController extends ChangeNotifier {
     if (cameraController == null || !cameraController!.value.isInitialized) {
       return null;
     }
-    final image = await cameraController!.takePicture();
-    return File(image.path);
+    if (_isCapturing) return null;
+
+    try {
+      _isCapturing = true;
+      final image = await cameraController!.takePicture();
+      return File(image.path);
+    } catch (e) {
+      debugPrint("Error capturing image: $e");
+      return null;
+    } finally {
+      _isCapturing = false;
+    }
   }
 
-  /// ✅ Verifies face via API and updates attendance
   Future<bool> verifyFaceAndMarkAttendance(
     BuildContext context,
     File imageFile,
     dynamic userId,
-    bool onsite,
   ) async {
     isLoading = true;
     notifyListeners();
 
     try {
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse("http://192.168.1.15:8000/api/face-detection/"), // ✅ fixed
-      );
+      var uri = Uri.parse("${TextConstants.baseUrl}face/verify/");
+      var request = http.MultipartRequest('POST', uri);
 
       request.files.add(
         await http.MultipartFile.fromPath('image', imageFile.path),
@@ -87,22 +105,15 @@ class CheckFaceVerificationController extends ChangeNotifier {
       request.fields['user_id'] = userId.toString();
 
       final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      debugPrint("Server Response: $responseBody");
 
       isLoading = false;
       notifyListeners();
 
-      if (response.statusCode == 200) {
-        final attendanceProvider = Provider.of<AttendanceProvider>(
-          context,
-          listen: false,
-        );
+      final decoded = json.decode(responseBody);
 
-        if (!attendanceProvider.isCheckedIn) {
-          attendanceProvider.checkIn();
-        } else {
-          attendanceProvider.checkOut();
-        }
-
+      if (response.statusCode == 200 && decoded['success'] == true) {
         return true;
       }
 
