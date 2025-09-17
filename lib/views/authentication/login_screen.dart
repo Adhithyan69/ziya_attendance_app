@@ -1,213 +1,176 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
-import 'package:ziya_attendence_app/providers/auth_controllers/login_controller.dart';
+import 'package:ziya_attendence_app/constants/validator.dart';
+import 'package:ziya_attendence_app/viewModels/auth_view_models/login_viewmodel.dart';
 import 'package:ziya_attendence_app/views/authentication/account_verified_screen.dart';
 import 'package:ziya_attendence_app/views/authentication/buffering_screen.dart';
 import 'package:ziya_attendence_app/views/authentication/forgot_pass_screen.dart';
-import 'package:ziya_attendence_app/views/bottom_navigationBar.dart';
-import 'package:ziya_attendence_app/widgets/background_circles_widget.dart';
-import 'package:ziya_attendence_app/widgets/login_textFields.dart';
+import 'package:ziya_attendence_app/widgets/loginPageWidgets/customTextfield.dart';
+import 'package:ziya_attendence_app/widgets/loginPageWidgets/login_title_widget.dart';
+import 'package:ziya_attendence_app/widgets/loginPageWidgets/logo_widget.dart';
+import 'package:ziya_attendence_app/widgets/loginPageWidgets/remember_me_widget.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-
-  final _formKey = GlobalKey<FormState>();
-
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<LoginProvider>(context);
+    final vm = Provider.of<LoginViewModel>(context);
+    final isLandscape = 1.sw > 1.sh;
+    final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            const BackgroundCircles(),
-            Center(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+      backgroundColor: AppColors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: isLandscape ? 0.6.sw : 500.w),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const LogoWidget(),
+                  SizedBox(height: 30.h),
+                  const LoginTitle(),
+                  SizedBox(height: 30.h),
+
+                  /// Email Field
+                  CustomTextField(
+                    label: TextConstants.email,
+                    hint: TextConstants.enterEmail,
+                    icon: Icons.email,
+                    controller: vm.emailCtrl,
+                    validator: Validator.email,
+                  ),
+                  SizedBox(height: 18.h),
+
+                  /// Password Field
+                  CustomTextField(
+                    label: TextConstants.password,
+                    hint: TextConstants.enterPassword,
+                    icon: Icons.lock,
+                    controller: vm.passCtrl,
+                    isPassword: true,
+                    obscureText: vm.obscurePassword,
+                    togglePassword: vm.togglePasswordVisibility,
+                    validator: Validator.password,
+                  ),
+                  SizedBox(height: 10.h),
+
+                  /// Remember Me Row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        TextConstants.appTitle,
-                        style: TextStyle(
-                          fontSize: 28.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        TextConstants.loginToYOurAccount,
-                        style: TextStyle(color: Colors.green, fontSize: 18.sp),
-                      ),
-                      SizedBox(height: 32.h),
+                      RememberMeRow(vm: vm),
 
-                      LoginTextFields(
-                        controller: emailController,
-                        hint: TextConstants.emailHint,
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return TextConstants.emailIsRequired;
-                          }
-                          if (!RegExp(
-                            r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$',
-                          ).hasMatch(value)) {
-                            return TextConstants.enterValidEmail;
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.h),
-
-                      LoginTextFields(
-                        controller: passwordController,
-                        hint: TextConstants.passwordHint,
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return TextConstants.passwordIsRequired;
-                          }
-                          if (value.length < 6) {
-                            return TextConstants.passwordMustBe6Char;
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 24.h),
-
-                      SizedBox(
-                        width: double.infinity,
-                        height: 48.h,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.r),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ForgotPasswordView(),
                             ),
+                          );
+                        },
+                        child: const Text(
+                          TextConstants.forgotPassword,
+
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: AppColors.blue,
+                            fontWeight: FontWeight.w700,
                           ),
-
-                          onPressed:
-                              provider.isLoading
-                                  ? null
-                                  : () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      // Show buffering screen
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (_) => const BufferingScreen(),
-                                        ),
-                                      );
-
-                                      // Perform login
-                                      final result = await provider.login(
-                                        emailController.text.trim(),
-                                        passwordController.text.trim(),
-                                      );
-
-                                      // Remove buffering screen
-                                      Navigator.pop(context);
-
-                                      if (result["success"]) {
-                                        // Show AccountVerifiedScreen
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder:
-                                                (_) =>
-                                                    const AccountVerifiedScreen(),
-                                          ),
-                                        );
-
-                                        // Navigate to Home after short delay
-                                        Future.delayed(
-                                          const Duration(seconds: 2),
-                                          () {
-                                            Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (_) =>
-                                                        const BottomNavigation(),
-                                              ),
-                                              (route) => false,
-                                            );
-                                          },
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              result["message"] ??
-                                                  "Login failed",
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  },
-
-                          child:
-                              provider.isLoading
-                                  ? SizedBox(
-                                    width: 20.w,
-                                    height: 20.w,
-                                    child: const CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2,
-                                    ),
-                                  )
-                                  : Text(
-                                    TextConstants.login,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
                         ),
-                      ),
-                      SizedBox(height: 12.h),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed:
-                                () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const ForgotPasswordPage(),
-                                  ),
-                                ),
-                            child: Text(
-                              TextConstants.fotgotPassword,
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
+                  ), // ✅ Fixed here
+
+                  SizedBox(height: 30.h),
+
+                  /// Login Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 45.h,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.buttonColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.r),
+                        ),
+                      ),
+                      onPressed:
+                          vm.isLoading
+                              ? null
+                              : () async {
+                                if (!_formKey.currentState!.validate()) return;
+
+                                // Show Buffering screen
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const BufferingScreen(),
+                                  ),
+                                );
+
+                                // Perform login
+                                final result = await vm.login();
+
+                                // Close Buffering screen
+                                Navigator.pop(context);
+
+                                if (!context.mounted) return;
+
+                                if (result[TextConstants.success] == true) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (_) => const AccountVerifiedScreen(),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        result[TextConstants.message] ??
+                                            TextConstants.loginFailed,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                      child:
+                          vm.isLoading
+                              ? SizedBox(
+                                height: 22.w,
+                                width: 22.w,
+                                child: const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation(
+                                    AppColors.white,
+                                  ),
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : Text(
+                                TextConstants.login,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                    ),
                   ),
-                ),
+                  SizedBox(height: 40.h),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

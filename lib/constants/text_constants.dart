@@ -1,14 +1,52 @@
 class TextConstants {
+  // my
+
+  static const String appName = "Ziya Attend";
+  static const String appTagline = "Smart Attendance Maintainer";
+
+  //Login / Auth Texts
+  static const String forgotPassword = "Forgot Password?";
+  // static const String login = "Login";
+  static const String loginFailed = "Login failed";
+
+  //Validation Messages
+  static const String enterEmail = "Please enter you email";
+  // static const String enterValidEmail = "please ente a valid email";
+  static const String enterPassword = "Enter Password";
+  static const String emailError = "Enter your email";
+
+  //Input Field Labels
+  static const String password = "Password";
+  // static const String passwordHint = "Password";
+  static const String email = " Email";
+  static const String emailAddres = "Email Address";
+
+  //UI Buttons / Links
+  static const String rememberMe = "Remember Me";
+  static const String backtologin = "Back to Login";
+  static const String sandCode = "Sand Code";
+
+  //Errors
+  static const String logoError = 'Logo not found\n(add assets/logoimages.png)';
+
+  //API Response Keys
+  static const String success = "success";
+  static const String message = "message";
+
+  //Forgot Password Screen
+  static const String forgotSubText =
+      "Enter your registered email address to reset your password.";
+
   //login screen
-  static const appTitle = 'Ziya Attendence';
+  static const appTitle = 'Ziya Attend';
   static const ziyaLogo = 'assets/_ZIYA_ACADEMY_LOGO.png';
-  static const baseUrl = 'http://192.168.1.31:8000/api/';
+  static const baseUrl = 'http://192.168.1.27:8000/api/';
   static const welcomeBack = 'Welcome Back!';
   static const loginToYOurAccount = 'Login to Your Account';
   static const emailHint = 'Email';
   static const passwordHint = 'Password';
   static const fotgotPassword = 'Forgot Password?';
-  static const login = 'Login';
+  static const login = 'Log In';
   static const signUp = 'Sign Up';
   static const passwordIsRequired = 'password is required';
   static const passwordMustBe6Char = 'Password must be at least 6 characters';

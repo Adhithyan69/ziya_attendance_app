@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 
 class AppColors {
+  // my
+  static const Color customGreen = Color(0xFF94C21A);
+
   static const Color buttonColor = Colors.blue;
   static const Color primaryColor = Colors.black;
   static const Color secondaryColor = Colors.white;
