@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import 'package:provider/provider.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
-import 'package:ziya_attendence_app/providers/auth_controllers/otp_controller.dart';
+import 'package:ziya_attendence_app/viewModels/auth_view_models/otp_viewmodel.dart';
 
-class OtpScreen extends StatelessWidget {
+class OtpView extends StatelessWidget {
   final String email;
   final Future Function() onVerified;
 
-  const OtpScreen({super.key, required this.email, required this.onVerified});
+  const OtpView({super.key, required this.email, required this.onVerified});
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<OtpController>();
+    final controller = context.watch<OtpViewModel>();
 
     return Scaffold(
       backgroundColor: AppColors.otpBackgroundClr,
@@ -63,7 +62,7 @@ class OtpScreen extends StatelessWidget {
                   activeColor: AppColors.otpButtonClr,
                 ),
                 enableActiveFill: true,
-                onChanged: context.read<OtpController>().onOtpChange,
+                onChanged: context.read<OtpViewModel>().onOtpChange,
               ),
 
               if (controller.errorMessage != null)
@@ -84,7 +83,7 @@ class OtpScreen extends StatelessWidget {
                 onTap:
                     controller.isLoading
                         ? null
-                        : () => context.read<OtpController>().resendCode(email),
+                        : () => context.read<OtpViewModel>().resendCode(email),
                 child: Text(
                   TextConstants.resendCode,
                   style: TextStyle(
@@ -104,7 +103,7 @@ class OtpScreen extends StatelessWidget {
                   onPressed:
                       controller.isLoading
                           ? null
-                          : () => context.read<OtpController>().verifyOtp(
+                          : () => context.read<OtpViewModel>().verifyOtp(
                             email,
                             () async {
                               ScaffoldMessenger.of(context).showSnackBar(

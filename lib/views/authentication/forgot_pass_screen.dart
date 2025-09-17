@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:ziya_attendence_app/constants/color_constants.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
-import 'package:ziya_attendence_app/providers/auth_controllers/forgot_controller.dart';
+import 'package:ziya_attendence_app/viewModels/auth_view_models/forgotPassword_ViewModel.dart';
 import 'package:ziya_attendence_app/views/authentication/resetpass.dart';
 import 'package:ziya_attendence_app/views/authentication/verifyotp.dart';
 import 'package:ziya_attendence_app/widgets/loginPageWidgets/customTextfield.dart';
@@ -22,29 +22,28 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Future<void> _handleReset() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final provider = Provider.of<ForgotPasswordProvider>(
-      context,
-      listen: false,
+    final vm = Provider.of<ForgotPasswordViewModel>(context, listen: false);
+    final result = await vm.resetPassword(_emailController.text.trim());
+
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(result["message"] ?? "Unknown error")),
     );
 
-    final success = await provider.resetPassword(
-      context: context,
-      email: _emailController.text.trim(),
-    );
-
-    if (success && mounted) {
+    if (result["success"]) {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder:
-              (context) => OtpScreen(
+              (context) => OtpView(
                 email: _emailController.text.trim(),
                 onVerified: () {
                   return Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder:
-                          (context) => ResetPasswordScreen(
+                          (context) => ResetPasswordView(
                             email: _emailController.text.trim(),
                           ),
                     ),
@@ -58,7 +57,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ForgotPasswordProvider>(context);
+    final vm = Provider.of<ForgotPasswordViewModel>(context);
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -86,21 +85,20 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 ),
                 SizedBox(height: 70.h),
 
-                /// ✅ Using your reusable CustomTextField
+                /// Email Input
                 CustomTextField(
                   label: TextConstants.email,
                   hint: TextConstants.emailAddres,
                   icon: Icons.email_outlined,
                   controller: _emailController,
                   validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return "Enter email";
-                    }
+                    if (val == null || val.isEmpty) return "Enter email";
                     return null;
                   },
                 ),
                 SizedBox(height: 32.h),
 
+                /// Send Code Button
                 SizedBox(
                   width: double.infinity,
                   height: 48.h,
@@ -112,9 +110,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       ),
                       elevation: 2,
                     ),
-                    onPressed: provider.isLoading ? null : _handleReset,
+                    onPressed: vm.isLoading ? null : _handleReset,
                     child:
-                        provider.isLoading
+                        vm.isLoading
                             ? SizedBox(
                               height: 20.h,
                               width: 20.w,
@@ -135,9 +133,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                             ),
                   ),
                 ),
-
                 SizedBox(height: 24.h),
 
+                /// Back to login
                 Center(
                   child: GestureDetector(
                     onTap: () => Navigator.pop(context),
@@ -149,8 +147,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         fontWeight: FontWeight.w600,
                         decoration: TextDecoration.underline,
                         decorationColor: AppColors.customGreen,
-                        decorationThickness:
-                            0.8, // slightly thicker for visibility
+                        decorationThickness: 0.8,
                       ),
                     ),
                   ),

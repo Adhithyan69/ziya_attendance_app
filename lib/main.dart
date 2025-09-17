@@ -13,7 +13,10 @@ import 'package:ziya_attendence_app/providers/notification_controller.dart';
 import 'package:ziya_attendence_app/providers/profile_controller.dart';
 import 'package:ziya_attendence_app/providers/search_controller.dart';
 import 'package:ziya_attendence_app/providers/task_controller.dart';
+import 'package:ziya_attendence_app/viewModels/auth_view_models/forgotPassword_ViewModel.dart';
 import 'package:ziya_attendence_app/viewModels/auth_view_models/login_viewmodel.dart';
+import 'package:ziya_attendence_app/viewModels/auth_view_models/otp_viewmodel.dart';
+import 'package:ziya_attendence_app/viewModels/auth_view_models/resetPassword_viewModel.dart';
 import 'package:ziya_attendence_app/views/authentication/login_screen.dart';
 import 'providers/checkin_card_controller.dart';
 import 'providers/dashboard_controllers/attendance_controller.dart';
@@ -28,12 +31,15 @@ void main() async {
         ChangeNotifierProvider(create: (context) => TaskController()),
         ChangeNotifierProvider(create: (context) => AttendanceProvider()),
         ChangeNotifierProvider(create: (context) => DashboardController()),
-        // ChangeNotifierProvider(create: (context) => LoginProvider()),
+
+        ChangeNotifierProvider(create: (context) => ForgotPasswordProvider()),
         ChangeNotifierProvider(create: (context) => ResetPasswordController()),
         ChangeNotifierProvider(create: (context) => OtpController()),
         ChangeNotifierProvider(create: (context) => LoginViewModel()),
-        // ChangeNotifierProvider(create: (context) => SignUpController()),
-        ChangeNotifierProvider(create: (context) => ForgotPasswordProvider()),
+        ChangeNotifierProvider(create: (context) => ResetPasswordViewModel()),
+
+        ChangeNotifierProvider(create: (context) => OtpViewModel()),
+        ChangeNotifierProvider(create: (context) => ForgotPasswordViewModel()),
         ChangeNotifierProvider(create: (context) => LeaveRequestController()),
         ChangeNotifierProvider(create: (context) => LeaveDashboardController()),
         ChangeNotifierProvider(create: (context) => AttendanceController()),

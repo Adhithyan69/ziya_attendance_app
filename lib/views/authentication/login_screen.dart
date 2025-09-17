@@ -126,7 +126,7 @@ class LoginPage extends StatelessWidget {
                                 if (!context.mounted) return;
 
                                 if (result[TextConstants.success] == true) {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                       builder:

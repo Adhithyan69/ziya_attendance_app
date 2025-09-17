@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:ziya_attendence_app/constants/text_constants.dart';
 import 'package:ziya_attendence_app/widgets/home_appBar_widget.dart';
 import '../providers/checkin_card_controller.dart';
-import '../widgets/checkin_card.dart';
+import '../widgets/check-in-out_section/checkin_card.dart';
 import '../widgets/overview_section.dart';
 import '../widgets/dashboard_grid.dart';
 import '../widgets/tapbar.dart';
