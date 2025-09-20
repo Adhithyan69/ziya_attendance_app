@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "427976472772",
+    "project_id": "ziya-attend-2c26c",
+    "storage_bucket": "ziya-attend-2c26c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427976472772:android:edacfeb240258f6404b191",
+        "android_client_info": {
+          "package_name": "com.example.ziya_attend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRpzVaTgG-W6w5vToXdfoSx2tUW9ABWZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427976472772:android:0f8ea6fb9ea3a74a04b191",
+        "android_client_info": {
+          "package_name": "com.example.ziya_attendance_ui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRpzVaTgG-W6w5vToXdfoSx2tUW9ABWZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
